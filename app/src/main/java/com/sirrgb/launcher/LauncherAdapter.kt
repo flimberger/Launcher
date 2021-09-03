@@ -2,7 +2,6 @@ package com.sirrgb.launcher
 
 import android.content.Context
 import android.database.DataSetObserver
-import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,9 +10,11 @@ import android.widget.ImageView
 import android.widget.ListAdapter
 import android.widget.TextView
 
-class LauncherEntry(val label: CharSequence, val icon: Drawable)
-
 class LauncherAdapter(private val context: Context, private val objects: List<LauncherEntry>) : ListAdapter {
+	companion object {
+		const val TAG = "LauncherAdapter"
+	}
+
 	override fun registerDataSetObserver(p0: DataSetObserver?) {
 		// do nothing
 	}

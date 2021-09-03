@@ -1,5 +1,6 @@
 package com.sirrgb.launcher
 
+import android.content.ComponentName
 import android.content.Intent
 import android.content.pm.ResolveInfo
 import android.os.Bundle
@@ -12,12 +13,18 @@ class EngineerActivity : AppCompatActivity() {
 		setContentView(R.layout.activity_engineer)
 
 		val allMainActivities = getAllMainActivities()
-		val labels = allMainActivities.map {
-			LauncherEntry(it.loadLabel(packageManager), it.loadIcon(packageManager))
+		val entries = allMainActivities.map {
+			val activityInfo = it.activityInfo
+			LauncherEntry(it.loadLabel(packageManager), it.loadIcon(packageManager), ComponentName(activityInfo.packageName, activityInfo.name))
 		}
-		val adapter = LauncherAdapter(this, labels)
+		val adapter = LauncherAdapter(this, entries)
 		val mListView = findViewById<ListView>(R.id.listView)
 		mListView.adapter = adapter
+		mListView.setOnItemClickListener { _, view, position, _ ->
+			view?.context?.startActivity(
+				entries[position].startIntent
+			)
+		}
 	}
 
 
