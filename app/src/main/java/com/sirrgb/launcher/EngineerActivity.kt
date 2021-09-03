@@ -3,7 +3,6 @@ package com.sirrgb.launcher
 import android.content.Intent
 import android.content.pm.ResolveInfo
 import android.os.Bundle
-import android.widget.ArrayAdapter
 import android.widget.ListView
 import androidx.appcompat.app.AppCompatActivity
 
@@ -13,16 +12,12 @@ class EngineerActivity : AppCompatActivity() {
 		setContentView(R.layout.activity_engineer)
 
 		val allMainActivities = getAllMainActivities()
-		allMainActivities.forEach {
-			val label = it.loadLabel(packageManager)
-			println(label)
-		}
 		val labels = allMainActivities.map {
-			it.loadLabel(packageManager)
+			LauncherEntry(it.loadLabel(packageManager), it.loadIcon(packageManager))
 		}
-        val arrayAdapter: ArrayAdapter<*> = ArrayAdapter(this, android.R.layout.simple_list_item_1, labels)
+		val adapter = LauncherAdapter(this, labels)
 		val mListView = findViewById<ListView>(R.id.listView)
-		mListView.adapter = arrayAdapter
+		mListView.adapter = adapter
 	}
 
 
